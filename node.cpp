@@ -52,15 +52,15 @@ struct graph {
 
 graph::graph() {
 	int temp[3][3] = {
-		{3,0,4},
-		{6,7,2},
-		{5,1,8}
-	};
-	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) start.state[i][j] = temp[i][j];
-	int temp1[3][3] = {
 		{1,2,3},
 		{4,5,6},
 		{7,8,0}
+	};
+	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) start.state[i][j] = temp[i][j];
+	int temp1[3][3] = {
+		{8,6,7},
+		{2,5,4},
+		{3,0,1}
 	};
 	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) goal.state[i][j] = temp1[i][j];
 }
@@ -108,7 +108,7 @@ int graph::h(node & n) {
 	int count = 0;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if (n.state[i][j] == 0) count += abs(2-i) + abs(2-j);
+			if (n.state[i][j] == 0) ;//count += abs(2-i) + abs(2-j);
 			else count += abs(n.state[i][j]/3-2) + abs(n.state[i][j]%3-2);
 		}
 	}
