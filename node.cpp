@@ -39,7 +39,7 @@ struct KeyHasher
 			  count = count * 10 + k.state[i][j];
 		  }
 	  }
-		return count % 1000000;
+		return count % 10000000;
   }
 };
 
@@ -119,13 +119,27 @@ vector<pair<node, int> > graph::next(node &n) {
 }
 
 int graph::h(node & n) {
-	int count = 0;
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			if (n.state[i][j] == 0) ;//count += abs(2-i) + abs(2-j);
-			else count += abs((n.state[i][j]-1)/3-i) + abs((n.state[i][j]-1)%3-j);
+	int type = 1;
+	if (type == 0) return 0;
+	if (type == 1) {
+		int count = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (n.state[i][j] == 0) ;//count += abs(2-i) + abs(2-j);
+				else count += abs((n.state[i][j]-1)/3-i) + abs((n.state[i][j]-1)%3-j);
+			}
 		}
+		return count;
 	}
-	return count;
+	if (type == 2) {
+		int count = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (n.state[i][j] == 0) ;//count += abs(2-i) + abs(2-j);
+				else if (abs((n.state[i][j]-1)/3-i) || abs((n.state[i][j]-1)%3-j)) count++;;
+			}
+		}
+		return count;
+	}
 }
 
