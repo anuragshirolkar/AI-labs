@@ -1,6 +1,6 @@
 #include <iostream>
 #include <set>
-#include <map>
+#include <tr1/unordered_map>
 #include "node.cpp"
 using namespace std;
 
@@ -27,8 +27,8 @@ open_list_member::open_list_member(int f, int g, node c, node p) {
 
 struct astar {
 	set<open_list_member> open_list;
-	map<node, set<open_list_member>::iterator> open_list_access;
-	map<node, pair<node ,int> > closed_list;
+	tr1::unordered_map<node, set<open_list_member>::iterator, KeyHasher> open_list_access;
+	tr1::unordered_map<node, pair<node ,int>, KeyHasher > closed_list;
 	graph g;
 
 	vector<node> search();
@@ -44,8 +44,8 @@ vector<node> astar::search() {
 		}
 		vector<pair<node, int> > next = g.next(current);
 		for (int i = 0; i < next.size(); i++) {
-			map<node, set<open_list_member>::iterator>::iterator it = open_list_access.find(next[i].first);
-			map<node, pair<node, int> >::iterator it1 = closed_list.find(next[i].first);
+			tr1::unordered_map<node, set<open_list_member>::iterator>::iterator it = open_list_access.find(next[i].first);
+			tr1::unordered_map<node, pair<node, int> >::iterator it1 = closed_list.find(next[i].first);
 			if (it != open_list_access.end()) {
 				if (it->second->fval > open_list.begin()->gval+next[i].second+g.h(next[i].first)) {
 					open_list.erase(it->second);

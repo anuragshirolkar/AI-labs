@@ -29,6 +29,20 @@ bool operator==(const node &a, const node &b) {
 	return true;
 }
 
+struct KeyHasher
+{
+  std::size_t operator()(const node& k) const
+  {
+	  int count = 0;
+	  for (int i = 0; i < 3; i++) {
+		  for (int j = 0; j < 3; j++) {
+			  count = count * 10 + k.state[i][j];
+		  }
+	  }
+		return count % 1000000;
+  }
+};
+
 void node::print() {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) cout << state[i][j] << " ";
