@@ -13,7 +13,7 @@ struct open_list_member {
 
 bool operator<(const open_list_member &a, const open_list_member &b) {
 	if (a.fval != b.fval) return a.fval < b.fval;
-	if (a.gval != b.gval) return a.gval < b.gval;
+	if (a.gval != b.gval) return a.gval > b.gval;
 	return a.current < b.current;
 }
 
