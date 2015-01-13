@@ -49,22 +49,27 @@ vector<node> astar::search() {
 			if (it != open_list_access.end()) {
 				if (it->second->fval > open_list.begin()->gval+next[i].second+g.h(next[i].first)) {
 					open_list.erase(it->second);
-					open_list.insert(open_list_member(open_list.begin()->gval+next[i].second+g.h(next[i].first), open_list.begin()->gval+next[i].second, next[i].first, current));
+					set<open_list_member>::iterator temp = open_list.insert(open_list_member(open_list.begin()->gval+next[i].second+g.h(next[i].first), open_list.begin()->gval+next[i].second, next[i].first, current)).first;
+					open_list_access[next[i].first] = temp;
 				}
 			}
 			else if (it1 != closed_list.end()) {
 				if (it1->second.second > open_list.begin()->gval+next[i].second+g.h(next[i].first)) {
-					open_list.insert(open_list_member(open_list.begin()->gval+next[i].second+g.h(next[i].first), open_list.begin()->gval+next[i].second, next[i].first, current));
+					set<open_list_member>::iterator temp = open_list.insert(open_list_member(open_list.begin()->gval+next[i].second+g.h(next[i].first), open_list.begin()->gval+next[i].second, next[i].first, current)).first;
+					open_list_access[next[i].first] = temp;
 					closed_list.erase(it1);
 				}
 			}
 			else {
-				open_list.insert(open_list_member(open_list.begin()->gval+next[i].second+g.h(next[i].first), open_list.begin()->gval+next[i].second, next[i].first, current));
+				set<open_list_member>::iterator temp = open_list.insert(open_list_member(open_list.begin()->gval+next[i].second+g.h(next[i].first), open_list.begin()->gval+next[i].second, next[i].first, current)).first;
+				open_list_access[next[i].first] = temp;
 			}
 		}
 		closed_list[current] = pair<node, int> (open_list.begin()->parent, open_list.begin()->fval);
+		open_list_access.erase(current);
 		open_list.erase(open_list.begin());
 	}
+	cout << "closed list size: " << closed_list.size() <<" open list size: " << open_list.size() <<  endl;
 	if (open_list.empty()) return vector<node>();
 	vector<node> ans;
 	ans.push_back(g.goal);
