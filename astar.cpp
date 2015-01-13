@@ -11,7 +11,6 @@ struct astar {
 	graph g;
 
 	vector<node> search();
-	vector<node> search1();
 };
 
 vector<node> astar::search() {
