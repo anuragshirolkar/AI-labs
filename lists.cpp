@@ -114,6 +114,7 @@ vector<node> closed_list::getpath(node & start, node & goal) {
 		v.at(v.size()-1).print();
 		v.push_back(closed_list[(v.at(v.size()-1))].first);
 	}
+	start.print();
 	return v;
 }
 

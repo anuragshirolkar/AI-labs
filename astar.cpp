@@ -17,7 +17,10 @@ vector<node> astar::search() {
 	ol.insert(g.start, node(), 0, g.h(g.start));
 	while (!ol.empty()) {
 		open_list_member current = ol.getmin();
+		//current.current.print();
 		vector<pair<node, int> > next = g.next(current.current);
+		//cout << next.size() << endl;
+		//if (ol.open_list.size() == 1) current.current.print();
 		for (int i = 0; i < next.size(); i++) {
 			node to_add = next[i].first;
 			int length = next[i].second;
