@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 /**
  * structure to denote state of the problem
@@ -9,7 +10,39 @@ struct node {
 	int state[3][3];
 
 	void print();
+	bool is_reachable(node);
 };
+
+
+bool node::is_reachable(node b){
+	vector<int> st(9),goal(9);
+	for (int i = 0; i < 9; ++i){
+		st[i]=state[i/3][i%3];
+		goal[i]=b.state[i/3][i%3];
+	}
+	map<int,int> pos;
+	for(int i = 0; i < 9; ++i)
+		pos[goal[i]]=i;
+	int invcount=0;
+	for (int i = 0; i < 9; ++i)	{
+		for (int j = i+1; j < 9; ++j){
+			if(pos[st[j]] < pos[st[i]])
+				invcount++;
+		}
+	}
+	int pos1=pos[0],pos2,mdist;
+	for(int i = 0; i < 9; ++i)
+		if(st[i]==0) {
+			pos2=i;
+			break;
+		}
+	mdist = abs(pos1/3 - pos2/3) + abs(pos1%3 - pos2%3);
+	if((mdist&1)^(invcount&1)){
+		return false;
+	}
+	else return true;
+}
+
 
 bool operator<(const node &a, const node &b) {
 	for (int i = 0; i < 3; i++) {
@@ -66,9 +99,15 @@ struct graph {
 
 graph::graph() {
 	int temp[3][3] = {
-		{6,4,7},
-		{5,0,8},
-		{1,2,3}
+		{8,7,6},
+		{1,0,5},
+		{2,3,4}
+		// {1,2,3},
+		// {0,7,6},
+		// {5,4,8}
+		// {6,4,7},
+		// {5,0,8},
+		// {1,2,3}
 		//{5,6,7},
 		//{4,8,0},
 		//{3,2,1}
@@ -76,8 +115,11 @@ graph::graph() {
 	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) start.state[i][j] = temp[i][j];
 	int temp1[3][3] = {
 		{1,2,3},
-		{4,5,6},
-		{7,8,0}
+		{8,0,4},
+		{7,6,5}
+		// {1,2,3},
+		// {4,5,6},
+		// {7,8,0}
 		//{1,2,3},
 		//{8,4,0},
 		//{7,6,5}
@@ -125,7 +167,7 @@ vector<pair<node, int> > graph::next(node &n) {
 }
 
 int graph::h(node & n) {
-	int type = 2;
+	int type = 0;
 	if (type == 0) return 0;
 	if (type == 2) {
 		int x1[9], y1[9], x2[9], y2[9];
