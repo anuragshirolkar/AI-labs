@@ -4,15 +4,18 @@
 #include <cmath>
 
 using namespace std;
+struct node{
+	int state[3][3];
 
-int main(){
+	bool is_reachable(node);
+};
+
+bool node::is_reachable(node b){
 	vector<int> st(9),goal(9);
-
-	for (int i = 0; i < 9; ++i)
-		cin>>st[i];
-
-	for (int i = 0; i < 9; ++i)
-		cin>>goal[i];
+	for (int i = 0; i < 9; ++i){
+		st[i]=state[i/3][i%3];
+		goal[i]=b.state[i/3][i%3];
+	}
 
 	map<int,int> pos;
 
@@ -31,8 +34,6 @@ int main(){
 		}
 	}
 
-	cout<<"Inversions : "<<invcount<<endl;
-
 	int pos1=pos[0],pos2,mdist;
 	for(int i = 0; i < 9; ++i)
 		if(st[i]==0)
@@ -43,12 +44,14 @@ int main(){
 
 	mdist = abs(pos1/3 - pos2/3) + abs(pos1%3 - pos2%3);
 
-	cout<<"Manhattan distance between blank :" <<mdist<<endl;
-
 	if((mdist&1)^(invcount&1)){
-		cout<<"Hence not reachable \n";
+		return false;
 	}
-	else
-		cout<<"Hence reachable \n";
+
+	else return true;
+}
+
+int main(){
+	
 
 }
