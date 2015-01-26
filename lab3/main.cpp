@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -166,6 +167,9 @@ int main(int argc, char const *argv[])
 {
 	cout<<"Input theorem to be proved : \n";
 	string s,s_temp;
+
+	s.erase( remove_if( s.begin(), s.end(), ::isspace ), s.end() );
+
 	cin>>s;
 
 	node *root=create_tree(s),*temp;
