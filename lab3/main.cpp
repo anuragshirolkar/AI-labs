@@ -115,7 +115,7 @@ node* create_tree(string &s){
 
 
 // Recursice function to print tree
-void print_tree(node *root , int dept){
+void print_tree(node *root , int dept=50){
 	if(root==NULL)
 		return;
 
@@ -168,12 +168,17 @@ int main(int argc, char const *argv[])
 	cout<<"Input theorem to be proved : \n";
 	string s,s_temp;
 
+	// Safe way to input with spaces
+	getline(cin,s);
+
+	// Removing all whitespaces
 	s.erase( remove_if( s.begin(), s.end(), ::isspace ), s.end() );
 
-	cin>>s;
 
 	node *root=create_tree(s),*temp;
 	temp = root;
+
+	//print_tree(root);
 
 	vector<node*> node_set;
 
