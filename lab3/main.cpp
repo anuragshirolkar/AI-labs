@@ -46,6 +46,7 @@ node* create_tree(string &s){
 		i++;
 	}
 
+	// Finding left part
 	do{
 		if(s[i]=='(')
 		{
@@ -72,6 +73,7 @@ node* create_tree(string &s){
 		i++;
 	}	
 
+	// Finding right part
 	do{
 		if(i>=l) break;
 		if(s[i]=='(')
