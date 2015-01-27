@@ -1,0 +1,45 @@
+LAB 1
+=====
+reachability test applied
+
+non monotonic heuristic:
+nodes are moved from closed list to open list
+
+monotonic heuristic :
+nodes are not moved from closed list to open list
+
+
+
+LAB 2
+=====
+utility of monotonic heuristic
+test case
+6 4 7 5 0 8 1 2 3
+1 2 3 4 5 6 7 8 0
+
+monotonic admissible (manhattan):
+nodes expanded : 8846
+length of path found : 30
+
+nonmonotonic admissible :
+nodes expanded : 6184
+length of path found : 30
+
+nonmonotonic nonadmissible :
+nodes expanded : 483
+length of path found : 70
+
+
+comparison of unidirection and bidirection
+6 4 7 5 0 8 1 2 3
+1 2 3 4 5 6 7 8 0
+
+for manhattan heuristic
+nodes expanded in unidirection : 8846
+nodes expanded in bidirection  : 2282
+
+for no heuristic
+nodes expanded in unidirection : 180000
+nodes expanded in bidirection  : 2800
+
+

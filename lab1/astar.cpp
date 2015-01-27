@@ -14,13 +14,13 @@ struct astar {
 };
 
 vector<node> astar::search() {
+	if (!g.start.is_reachable(g.goal)) {
+		return vector<node>();
+	}
 	ol.insert(g.start, node(), 0, g.h(g.start));
 	while (!ol.empty()) {
 		open_list_member current = ol.getmin();
-		//current.current.print();
 		vector<pair<node, int> > next = g.next(current.current);
-		//cout << next.size() << endl;
-		//if (ol.open_list.size() == 1) current.current.print();
 		for (int i = 0; i < next.size(); i++) {
 			node to_add = next[i].first;
 			int length = next[i].second;
@@ -29,6 +29,7 @@ vector<node> astar::search() {
 			}
 			else if(cl.exists(to_add)) {
 				if (cl.need_update(to_add, current, length, g.h(to_add))) {
+					cout << "error : node moved from closed list to open list" << endl;
 					cl.erase(to_add);
 					ol.insert(to_add, current.current, current.gval + length, current.gval+length+g.h(to_add));
 				}
@@ -47,6 +48,10 @@ vector<node> astar::search() {
 int main(void)
 {
 	astar a;
-	cout << a.search().size() << endl;
+	int ans = a.search().size();
+	if (ans == 0) cout << "Tumse na ho payega (Goal not reachable)" << endl;
+	else {
+		cout << "Distance from start to goal node : " << ans-1 << endl;
+	}
 	return 0;
 }

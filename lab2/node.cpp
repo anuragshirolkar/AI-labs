@@ -70,18 +70,12 @@ graph::graph() {
 		{6,4,7},
 		{5,0,8},
 		{1,2,3}
-		//{5,6,7},
-		//{4,8,0},
-		//{3,2,1}
 	};
 	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) start.state[i][j] = temp[i][j];
 	int temp1[3][3] = {
 		{1,2,3},
 		{4,5,6},
 		{7,8,0}
-		//{1,2,3},
-		//{8,4,0},
-		//{7,6,5}
 	};
 	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) goal.state[i][j] = temp1[i][j];
 }
@@ -180,7 +174,7 @@ int graph::h1(node & n) {
 
 
 int graph::h2(node & n) {
-	int type = 2;
+	int type = 0;
 	if (type == 0) return 0;
 	if (type == 2) {
 		int x1[9], y1[9], x2[9], y2[9];

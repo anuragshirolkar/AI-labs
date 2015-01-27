@@ -29,6 +29,7 @@ vector<node> astar::search() {
 			}
 			else if(cl1.exists(to_add)) {
 				if (cl1.need_update(to_add, current, length, g.h1(to_add))) {
+					cout << "error1" << endl;
 					cl1.erase(to_add);
 					ol1.insert(to_add, current.current, current.gval + length, current.gval+length+g.h1(to_add));
 				}
@@ -54,6 +55,7 @@ vector<node> astar::search() {
 			}
 			else if(cl2.exists(to_add)) {
 				if (cl2.need_update(to_add, current, length, g.h2(to_add))) {
+					cout << "error2" << endl;
 					cl2.erase(to_add);
 					ol2.insert(to_add, current.current, current.gval + length, current.gval+length+g.h2(to_add));
 				}
@@ -72,34 +74,6 @@ vector<node> astar::search() {
 	vector<node> n;
 	cout << cl1.getpath(g.start, link).size() + cl2.getpath(g.goal, link).size() - 1 << endl;
 	return n;
-	
-	// ol.insert(g.start, node(), 0, g.h(g.start));
-	
-	// while (!ol.empty()) {
-	// 	open_list_member current = ol.getmin();
-	// 	vector<pair<node, int> > next = g.next(current.current);
-	// 	for (int i = 0; i < next.size(); i++) {
-	// 		node to_add = next[i].first;
-	// 		int length = next[i].second;
-	// 		if (ol.exists(to_add)) {
-	// 			ol.update(to_add, current, length, g.h(to_add));
-	// 		}
-	// 		else if(cl.exists(to_add)) {
-	// 			if (cl.need_update(to_add, current, length, g.h(to_add))) {
-	// 				cl.erase(to_add);
-	// 				ol.insert(to_add, current.current, current.gval + length, current.gval+length+g.h(to_add));
-	// 			}
-	// 		}
-	// 		else {
-	// 			ol.insert(to_add, current.current, current.gval+length, current.gval+length+g.h(to_add));
-	// 		}
-	// 	}
-	// 	ol.erase(current);
-	// 	cl.insert(current);
-	// 	if (current.current == g.goal) break;
-	// }
-	// return cl.getpath(g.start, g.goal);
-	
 }
 
 int main(void)

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <cstdlib>
 using namespace std;
 /**
  * structure to denote state of the problem
@@ -98,33 +99,10 @@ struct graph {
 
 
 graph::graph() {
-	int temp[3][3] = {
-		{8,7,6},
-		{1,0,5},
-		{2,3,4}
-		// {1,2,3},
-		// {0,7,6},
-		// {5,4,8}
-		// {6,4,7},
-		// {5,0,8},
-		// {1,2,3}
-		//{5,6,7},
-		//{4,8,0},
-		//{3,2,1}
-	};
-	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) start.state[i][j] = temp[i][j];
-	int temp1[3][3] = {
-		{1,2,3},
-		{8,0,4},
-		{7,6,5}
-		// {1,2,3},
-		// {4,5,6},
-		// {7,8,0}
-		//{1,2,3},
-		//{8,4,0},
-		//{7,6,5}
-	};
-	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) goal.state[i][j] = temp1[i][j];
+	cout << "Enter state of the start node:" << endl;
+	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) cin >> start.state[i][j];
+	cout << "Enter state of the goal node:" << endl;
+	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) cin >> goal.state[i][j];
 }
 
 vector<pair<node, int> > graph::next(node &n) {
@@ -167,7 +145,7 @@ vector<pair<node, int> > graph::next(node &n) {
 }
 
 int graph::h(node & n) {
-	int type = 0;
+	int type = 2;
 	if (type == 0) return 0;
 	if (type == 2) {
 		int x1[9], y1[9], x2[9], y2[9];
@@ -182,7 +160,7 @@ int graph::h(node & n) {
 			}
 		}
 		for (int i = 1; i < 9; i++) count += abs(x1[i]-x2[i]) + abs(y1[i]-y2[i]);
-		return count;
+		return 1.2*count;
 	}
 	if (type == 1) {
 		int x1[9], y1[9], x2[9], y2[9];
@@ -215,6 +193,26 @@ int graph::h(node & n) {
 			if (x1[i] != x2[i]) count++;
 			if (y1[i] != y2[i]) count++;
 		};
+		return count;
+	}
+	if (type == 4) {
+		int x1[9], y1[9], x2[9], y2[9];
+		int count = 0;
+		int key = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (n.state[i][j] == 0) ;//count += abs(2-i) + abs(2-j);
+				x1[n.state[i][j]] = i;
+				y1[n.state[i][j]] = j;
+				x2[goal.state[i][j]] = i;
+				y2[goal.state[i][j]] = j;
+				key = key*10 + n.state[i][j];
+			}
+		}
+		for (int i = 1; i < 9; i++) {
+			if(key%2) count += abs(x1[i]-x2[i]);
+			else count += abs(y1[i]-y2[i]);
+		}
 		return count;
 	}
 }
