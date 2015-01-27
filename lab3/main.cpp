@@ -137,6 +137,7 @@ void print_tree(node *root , int dept){
 // Recursive function to check if two trees are equal
 
 bool is_equal(node* n1 , node* n2){
+
 	if(n1==NULL && n2==NULL)
 		return true;
 
@@ -146,20 +147,31 @@ bool is_equal(node* n1 , node* n2){
 	if(n2==NULL)
 		return false;
 
-	if(!(n1->is_op ^ n2->is_op))
+	if(n1->is_op != n2->is_op)
 		return false;
+
 
 	if(n1->is_op)
 		return is_equal(n1->left,n2->left) && is_equal(n1->right,n2->right);
 
-	return n1->C==n2->C;
+	return  (n1->C)==(n2->C);
 }
+
+// Main
 int main(int argc, char const *argv[])
 {
-	string s;
-	cin>>s;
+	string s1,s2;
+	cin>>s1>>s2;
 
-	node *root=create_tree(s);
+	node *root=create_tree(s1);
+	node *root2=create_tree(s2);
 	print_tree(root,50);
+	print_tree(root2,50);
+
+	if(is_equal(root,root2)){
+		cout<<"euqal\n";
+	}
+	else
+		cout<<"not equal\n";
 	return 0;
 }
