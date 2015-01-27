@@ -35,11 +35,12 @@ node* create_tree(string &s){
 	string left = "" , right="";
 	int br_count = 0 , i = 0 , l= s.size();
 
-	bool whole_not=false;
+	bool whole_not_right=false;
+	bool whole_not_left=false;
 
 	if(s[0]=='~'){
-		whole_not=true;
-		s=s.substr(1);
+		whole_not_left=true;
+		i++;
 	}
 
 	do{
@@ -63,7 +64,13 @@ node* create_tree(string &s){
 	i+=2;
 	br_count = 0;
 	
+	if(s[i]=='~'){
+		whole_not_right=true;
+		i++;
+	}	
+
 	do{
+		if(i>=l) break;
 		if(s[i]=='(')
 		{
 			if(br_count > 0)
@@ -81,8 +88,11 @@ node* create_tree(string &s){
 		i++;
 	}while(br_count>0 && i<l);
 
-	if(whole_not)
+	if(whole_not_left)
 		left = "("+left+")->F";
+
+	if(whole_not_right)
+		right = "("+right+")->F";
 
 	if(left.size()==0)
 		return create_tree(right);
