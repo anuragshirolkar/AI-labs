@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 
+// Gaandu ka code
 using namespace std;
 
 /** Node struct to hold the structure of the theorem
