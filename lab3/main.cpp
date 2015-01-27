@@ -2,6 +2,7 @@
 #include <cstring>
 #include <vector>
 
+// Gaandu ka code
 using namespace std;
 
 /** Node struct to hold the structure of the theorem
