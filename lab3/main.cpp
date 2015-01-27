@@ -19,6 +19,8 @@ struct node{
 	}
 };
 
+
+// Recursive function to create tree
 node* create_tree(string &s){
 
 	if(s.size()==1){
@@ -107,6 +109,8 @@ node* create_tree(string &s){
 	return root;
 }
 
+
+// Recursice function to print tree
 void print_tree(node *root , int dept){
 	if(root==NULL)
 		return;
@@ -128,6 +132,27 @@ void print_tree(node *root , int dept){
 	else{
 		cout<<root->C<<endl;
 	}
+}
+
+// Recursive function to check if two trees are equal
+
+bool is_equal(node* n1 , node* n2){
+	if(n1==NULL && n2==NULL)
+		return true;
+
+	if(n1==NULL)
+		return false;
+
+	if(n2==NULL)
+		return false;
+
+	if(!(n1->is_op ^ n2->is_op))
+		return false;
+
+	if(n1->is_op)
+		return is_equal(n1->left,n2->left) && is_equal(n1->right,n2->right);
+
+	return n1->C==n2->C;
 }
 int main(int argc, char const *argv[])
 {
