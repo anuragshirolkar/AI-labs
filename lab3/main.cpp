@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <vector>
 
 using namespace std;
 
@@ -157,21 +158,37 @@ bool is_equal(node* n1 , node* n2){
 	return  (n1->C)==(n2->C);
 }
 
+
 // Main
 int main(int argc, char const *argv[])
 {
-	string s1,s2;
-	cin>>s1>>s2;
+	cout<<"Input theorem to be proved : \n";
+	string s,s_temp;
+	cin>>s;
 
-	node *root=create_tree(s1);
-	node *root2=create_tree(s2);
-	print_tree(root,50);
-	print_tree(root2,50);
+	node *root=create_tree(s),*temp;
+	temp = root;
 
-	if(is_equal(root,root2)){
-		cout<<"euqal\n";
+	vector<node*> node_set;
+
+	while(temp!=NULL){
+		if(temp->is_op){
+			node_set.push_back(temp->left);
+			temp = temp->right;
+		}
+		else if(temp->C == 'F'){
+			temp = NULL;
+		}
+		else{
+			s_temp= "~X->F";
+			s_temp[1]=temp->C;
+			temp = create_tree(s_temp);
+		}
 	}
-	else
-		cout<<"not equal\n";
+
+	// Node_set is the set of all left subtrees
+	
+
+	
 	return 0;
 }
