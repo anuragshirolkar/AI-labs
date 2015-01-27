@@ -178,8 +178,6 @@ int main(int argc, char const *argv[])
 	node *root=create_tree(s),*temp;
 	temp = root;
 
-	//print_tree(root);
-
 	vector<node*> node_set;
 
 	while(temp!=NULL){
