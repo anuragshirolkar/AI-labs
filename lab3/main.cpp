@@ -18,6 +18,7 @@ struct node {
 	node (string);
 	pair<string, string> split(string);
 	void print();
+	void print1() const;
 };
 
 bool operator<(const node a, const node b) {
@@ -90,6 +91,7 @@ node::node(string s) {
 	if (s.size() == 1) {
 		valid = 1;
 		val = s[0];
+		cout<<"Yo: "<<val<<endl;
 		return;
 	}
 	valid = 0;
@@ -121,7 +123,7 @@ void node::print() {
 	return;
 }
 
-bool deducible(set<node> a, node b, set<node> a_parent) {
+bool deducible(set<node> a, node b, set<node> a_parent, vector<node> &proof) {
 	//if (level == 0) return false;
 	set<node> :: iterator it = a.find(b);
 	if (it != a.end()) return true;
@@ -167,9 +169,10 @@ bool deducible(set<node> a, node b, set<node> a_parent) {
 			vector<set<node> :: iterator> to_remove;
 			for (set<node> :: iterator it1 = current.children.begin(); it1 != current.children.end(); it1++) {
 				node new_child = *(it1);
-				if (deducible(a_new, new_child, a)) {
+				if (deducible(a_new, new_child, a, proof)) {
 					to_remove.push_back(it1);
 					a.insert(new_child);
+					proof.push_back(new_child);
 				}
 			}
 			for (int i = 0; i < to_remove.size(); i++) {
@@ -183,21 +186,37 @@ bool deducible(set<node> a, node b, set<node> a_parent) {
 	}
 }
 
-bool deducible(string s) {
+bool deducible(string s, vector<node> &proof) {
 	node n(s);
 	pair<string, string> p = n.split(s);
 	node a(p.first);
 	node b(p.second);
 	set<node> st;
 	st.insert(a);
-	return deducible(st, b, set<node>());
+	return deducible(st, b, set<node>(), proof);
+}
+
+void node::print1() const{
+	if(children.empty()){
+		cout<<"Hi Bro!\n";
+		cout<<val;
+		return;
+	}
+	cout << "(";
+	for (set<node> :: iterator it = children.begin(); it != children.end(); it++) {
+		if (it!= children.begin()) cout << " -> ";
+		it->print1();
+	}
+	cout << ")" << endl;
 }
 
 int main() {
+	vector<node> proof;
 	string s;
 	cin >> s;
-	bool is_deducible = deducible(s);
+	bool is_deducible = deducible(s, proof);
 	if (is_deducible) cout << "The expression is provable" << endl;
 	else cout << "I could not prove the expression" << endl;
+	for (int i = 0; i < proof.size(); i++) proof[i].print1();
 	return 0;
 }
