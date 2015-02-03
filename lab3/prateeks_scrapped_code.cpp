@@ -42,6 +42,9 @@ node* create_tree(string &s){
 	bool whole_not_right=false;
 	bool whole_not_left=false;
 
+	bool is_and=false;
+	bool is_or=false;
+
 	if(s[0]=='~'){
 		whole_not_left=true;
 		i++;
@@ -66,7 +69,15 @@ node* create_tree(string &s){
 		i++;
 	}while(br_count>0 && i<l);
 
-	i+=2;
+	if(s[i]=='^')
+		is_and = true;
+	else if(s[i]=='v')
+		is_or = true;
+	else
+		i++;
+	i++;
+
+	//cout<<is_or<<" "<<is_and<<" "<<s[i-1]<<endl;
 	br_count = 0;
 	
 	if(s[i]=='~'){
@@ -95,10 +106,10 @@ node* create_tree(string &s){
 	}while(br_count>0 && i<l);
 
 	if(whole_not_left)
-		left = "("+left+")->F";
+		left = "(("+left+")->F)";
 
 	if(whole_not_right)
-		right = "("+right+")->F";
+		right = "(("+right+")->F)";
 
 	if(left.size()==0)
 		return create_tree(right);
@@ -107,8 +118,21 @@ node* create_tree(string &s){
 		return create_tree(left);
 
 	node *root = new node;
-	root->left = create_tree(left);
-	root->right = create_tree(right);
+	if(is_or){
+		root->left = create_tree(left);
+		string s1="(F->"+right+")";
+		root->right = create_tree(s1);
+	}
+	else if(is_and){
+		string s1="("+left+"->(("+right+")->F))";
+		root->left = create_tree(s1);
+		s1 = "F";
+		root->right = create_tree(s1);
+	}
+	else{
+		root->left = create_tree(left);
+		root->right = create_tree(right);
+	}
 
 	return root;
 }
@@ -135,6 +159,25 @@ void print_tree(node *root , int dept=50){
 	}
 	else{
 		cout<<root->C<<endl;
+	}
+}
+
+string fold_tree(node *root){
+	string s="";
+	if(root==NULL)
+		return s;
+
+	if(root->is_op)
+	{
+		string s1 = fold_tree(root->left);
+		string s2 = fold_tree(root->right);
+		s = "("+s1+"->"+s2+")";
+		return s;
+	}
+	else{
+		s=" ";
+		s[0]=root->C;
+		return s;
 	}
 }
 
@@ -166,7 +209,7 @@ bool is_equal(node* n1 , node* n2){
 int main(int argc, char const *argv[])
 {
 	cout<<"Input theorem to be proved : \n";
-	string s,s_temp;
+	string s;
 
 	// Safe way to input with spaces
 	getline(cin,s);
@@ -175,25 +218,9 @@ int main(int argc, char const *argv[])
 	s.erase( remove_if( s.begin(), s.end(), ::isspace ), s.end() );
 
 
-	node *root=create_tree(s),*temp;
-	temp = root;
-
-	vector<node*> node_set;
-
-	while(temp!=NULL){
-		if(temp->is_op){
-			node_set.push_back(temp->left);
-			temp = temp->right;
-		}
-		else if(temp->C == 'F'){
-			temp = NULL;
-		}
-		else{
-			s_temp= "~X->F";
-			s_temp[1]=temp->C;
-			temp = create_tree(s_temp);
-		}
-	}
+	node *root=create_tree(s);
+		
+	cout<<fold_tree(root);
 
 	// Node_set is the set of all left subtrees
 	
