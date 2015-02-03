@@ -204,27 +204,16 @@ bool is_equal(node* n1 , node* n2){
 	return  (n1->C)==(n2->C);
 }
 
+string convert(string s){
+	s.erase( remove_if( s.begin(), s.end(), ::isspace ), s.end() );
+	node *root=create_tree(s);
+	return fold_tree;
+}
 
 // Main
 int main(int argc, char const *argv[])
 {
-	cout<<"Input theorem to be proved : \n";
-	string s;
-
-	// Safe way to input with spaces
-	getline(cin,s);
-
-	// Removing all whitespaces
-	s.erase( remove_if( s.begin(), s.end(), ::isspace ), s.end() );
-
-
-	node *root=create_tree(s);
-		
-	cout<<fold_tree(root);
-
-	// Node_set is the set of all left subtrees
 	
-
 	
 	return 0;
 }
