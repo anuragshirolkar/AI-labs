@@ -5,16 +5,16 @@
 
 using namespace std;
 
-/** Node struct to hold the structure of the theorem
+/** parser_node struct to hold the structure of the theorem
  For example : (p->q)->((~p->q)->q)
 
 */
-struct node{
+struct parser_node{
 	bool is_op;
 	char C;				// if is_op is false then this will hold a alphabet
-	node *left;
-	node *right;
-	node(){
+	parser_node *left;
+	parser_node *right;
+	parser_node(){
 		is_op = true;
 		left = NULL;
 		right = NULL;
@@ -23,10 +23,10 @@ struct node{
 
 
 // Recursive function to create tree
-node* create_tree(string &s){
+parser_node* create_tree(string &s){
 
 	if(s.size()==1){
-		node * root=new node;
+		parser_node * root=new parser_node;
 		root->is_op = false;
 		root->C = s[0];
 		return root;
@@ -117,7 +117,7 @@ node* create_tree(string &s){
 	if(right.size()==0)
 		return create_tree(left);
 
-	node *root = new node;
+	parser_node *root = new parser_node;
 	if(is_or){
 		root->left = create_tree(left);
 		string s1="(F->"+right+")";
@@ -139,7 +139,7 @@ node* create_tree(string &s){
 
 
 // Recursice function to print tree
-void print_tree(node *root , int dept=50){
+void print_tree(parser_node *root , int dept=50){
 	if(root==NULL)
 		return;
 
@@ -162,7 +162,7 @@ void print_tree(node *root , int dept=50){
 	}
 }
 
-string fold_tree(node *root){
+string fold_tree(parser_node *root){
 	string s="";
 	if(root==NULL)
 		return s;
@@ -183,7 +183,7 @@ string fold_tree(node *root){
 
 // Recursive function to check if two trees are equal
 
-bool is_equal(node* n1 , node* n2){
+bool is_equal(parser_node* n1 , parser_node* n2){
 
 	if(n1==NULL && n2==NULL)
 		return true;
@@ -206,7 +206,7 @@ bool is_equal(node* n1 , node* n2){
 
 string convert(string s){
 	s.erase( remove_if( s.begin(), s.end(), ::isspace ), s.end() );
-	node *root=create_tree(s);
+	parser_node *root=create_tree(s);
 	return fold_tree;
 }
 
