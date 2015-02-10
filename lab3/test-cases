@@ -1,0 +1,3 @@
+(((p->q) ^ (r->s)) ^ (p v r)) -> (q v s)			# constructive Dillema
+(((p->q) ^ (r->s)) ^ (~q v ~s)) -> (~p v ~r)		# destructive dillema
+(p^q) -> p
