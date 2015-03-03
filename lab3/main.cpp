@@ -9,6 +9,215 @@
 using namespace std;
 
 
+/** parser_node struct to hold the structure of the theorem
+ For example : (p->q)->((~p->q)->q)
+
+*/
+struct parser_node{
+	bool is_op;
+	char C;				// if is_op is false then this will hold a alphabet
+	parser_node *left;
+	parser_node *right;
+	parser_node(){
+		is_op = true;
+		left = NULL;
+		right = NULL;
+	}
+};
+
+
+// Recursive function to create tree
+parser_node* create_tree(string &s){
+
+	if(s.size()==1){
+		parser_node * root=new parser_node()	;
+		root->is_op = false;
+		root->C = s[0];
+		return root;
+	}
+
+	if(s.size()==0){
+		return NULL;
+	}
+
+	string left = "" , right="";
+	int br_count = 0 , i = 0 , l= s.size();
+
+	bool whole_not_right=false;
+	bool whole_not_left=false;
+
+	bool is_and=false;
+	bool is_or=false;
+
+	if(s[0]=='~'){
+		whole_not_left=true;
+		i++;
+	}
+
+	// Finding left part
+	do{
+		if(s[i]=='(')
+		{
+			if(br_count > 0)
+				left += s[i];
+			br_count++;
+		}
+		else if(s[i]==')'){
+			br_count--;
+			if(br_count > 0)
+					left += s[i];
+		}
+		else{
+			left += s[i];
+		}
+		i++;
+	}while(br_count>0 && i<l);
+
+	if(s[i]=='^')
+		is_and = true;
+	else if(s[i]=='v')
+		is_or = true;
+	else
+		i++;
+	i++;
+
+	//cout<<is_or<<" "<<is_and<<" "<<s[i-1]<<endl;
+	br_count = 0;
+	
+	if(s[i]=='~'){
+		whole_not_right=true;
+		i++;
+	}	
+
+	// Finding right part
+	do{
+		if(i>=l) break;
+		if(s[i]=='(')
+		{
+			if(br_count > 0)
+				right += s[i];
+			br_count++;
+		}
+		else if(s[i]==')'){
+			br_count--;
+			if(br_count > 0)
+				right += s[i];
+		}
+		else{
+			right += s[i];
+		}
+		i++;
+	}while(br_count>0 && i<l);
+
+	if(whole_not_left)
+		left = "(("+left+")->F)";
+
+	if(whole_not_right)
+		right = "(("+right+")->F)";
+
+	if(left.size()==0)
+		return create_tree(right);
+
+	if(right.size()==0)
+		return create_tree(left);
+
+	parser_node *root = new parser_node;
+	if(is_or){
+		string s1="(("+left+")->F)";
+		root->left = create_tree(s1);
+		root->right = create_tree(right);
+	}
+	else if(is_and){
+		//cout<<left<<"  :   "<<right<<endl;
+		string s1="(("+left+")->(("+right+")->F))";
+		//cout<<s1<<"     &&&&\n";
+		root->left = create_tree(s1);
+		s1 = "F";
+		root->right = create_tree(s1);
+	}
+	else{
+		root->left = create_tree(left);
+		root->right = create_tree(right);
+	}
+
+	return root;
+}
+
+
+// Recursice function to print tree
+void print_tree(parser_node *root , int dept=50){
+	if(root==NULL)
+		return;
+
+	if(root->is_op)
+	{
+		for(int i=0;i<dept;i++)
+			cout<<"-";
+		cout<<endl;
+
+		cout<<"Operator -> "<<endl;
+		print_tree(root->left , dept-5);
+		print_tree(root->right , dept-5);
+
+		for(int i=0;i<dept;i++)
+			cout<<"-";
+		cout<<endl;
+	}
+	else{
+		cout<<root->C<<endl;
+	}
+}
+
+string fold_tree(parser_node *root){
+	string s="";
+	if(root==NULL)
+		return s;
+
+	if(root->is_op)
+	{
+		string s1 = fold_tree(root->left);
+		string s2 = fold_tree(root->right);
+		s = "("+s1+"->"+s2+")";
+		return s;
+	}
+	else{
+		s=" ";
+		s[0]=root->C;
+		return s;
+	}
+}
+
+// Recursive function to check if two trees are equal
+
+bool is_equal(parser_node* n1 , parser_node* n2){
+
+	if(n1==NULL && n2==NULL)
+		return true;
+
+	if(n1==NULL)
+		return false;
+
+	if(n2==NULL)
+		return false;
+
+	if(n1->is_op != n2->is_op)
+		return false;
+
+
+	if(n1->is_op)
+		return is_equal(n1->left,n2->left) && is_equal(n1->right,n2->right);
+
+	return  (n1->C)==(n2->C);
+}
+
+
+string convert(string s){
+	s.erase(remove_if(s.begin(), s.end(), ::isspace), s.end());
+	parser_node *root=create_tree(s);
+	//print_tree(root);
+	return fold_tree(root);
+}
+
 struct node {
 	int valid;
 	char val;
@@ -91,7 +300,7 @@ node::node(string s) {
 	if (s.size() == 1) {
 		valid = 1;
 		val = s[0];
-		cout<<"Yo: "<<val<<endl;
+		//cout<<"Yo: "<<val<<endl;
 		return;
 	}
 	valid = 0;
@@ -198,7 +407,6 @@ bool deducible(string s, vector<node> &proof) {
 
 void node::print1() const{
 	if(children.empty()){
-		cout<<"Hi Bro!\n";
 		cout<<val;
 		return;
 	}
@@ -213,10 +421,12 @@ void node::print1() const{
 int main() {
 	vector<node> proof;
 	string s;
-	cin >> s;
+	getline(cin,s);
+	s=convert(s);
+	cout<<s<<"\n\n";
 	bool is_deducible = deducible(s, proof);
 	if (is_deducible) cout << "The expression is provable" << endl;
 	else cout << "I could not prove the expression" << endl;
-	for (int i = 0; i < proof.size(); i++) proof[i].print1();
+	//for (int i = 0; i < proof.size(); i++) proof[i].print1();
 	return 0;
 }
