@@ -1,0 +1,13 @@
+2
+not not and and or
+w2 w0
+w4 w1
+w6 w3
+w7 w1
+w9 w5
+w10 w0
+w12 w8
+w13 w11
+done
+w14
+xor
