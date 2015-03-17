@@ -57,10 +57,10 @@ for gate in gates:
     print
 
 for signal in signals:
-    symbol_table[signal] = randomvariable()
+    symbol_table[signal] = signal+randomvariable()
 
 for gate in gates:
-    symbol_table[gate] = randomvariable()
+    symbol_table[gate] = gate+randomvariable()
 
 connected_code = "\n%% Connected Code\n:- multifile connected/2.\n"
 print "Enter connections:"
@@ -72,7 +72,8 @@ while True:
     connected_code += "connected("+symbol_table[w0]+","+symbol_table[w1]+").\n"
 connected_code += "\n\n"
 
-output_signal = raw_input("Enter name of output signal: ")
+output_signals = raw_input("Enter names of output signals: ")
+output_signals = output_signals.split()
 
 signal_code = "\n%% Signal Code\n:- multifile signal/1.\n"
 for signal in signals:
@@ -88,11 +89,9 @@ for gate in gates:
     type_code += "type("+symbol_table[gate]+","+tp+").\n"
 type_code += "\n\n"
 
-in_code = "\n%% In Code\n:- multifile in/3.\n"
+in_code = "\n%% In Code\n:- multifile in/2.\n"
 for gate in gates:
-    for i in range(len(inputs[gate])):
-        print gate, inputs[gate][i]
-        in_code += "in("+str(i)+","+symbol_table[gate]+","+symbol_table[inputs[gate][i]]+").\n"
+   in_code += "in({0},[{1}]).\n".format(symbol_table[gate], ','.join([symbol_table[x] for x in inputs[gate]]))
 in_code += "\n\n"
 
 out_code = "\n%% Out Code\n:- multifile out/2.\n"
@@ -103,7 +102,10 @@ out_code += "\n\n"
 function_name = raw_input("Enter new Function name: ")
 
 output_predicate = "\n%% output predicate\n"
-output_predicate += function_name+"("+','.join([x.upper() for x in input_signals[:num_inputs]])+","+output_signal.upper()+") :- "+','.join(["valid("+x.upper()+"), asserta(value("+symbol_table[x]+","+x.upper()+"))" for x in input_signals[:num_inputs]])+",value("+symbol_table[output_signal]+","+output_signal.upper()+")."
+# output_predicate += function_name+"(["+','.join([x.upper() for x in input_signals[:num_inputs]])+"],["+','.join([x.upper() for x in output_signals])+"]) :- "+','.join(["valid("+x.upper()+"), asserta(value("+symbol_table[x]+","+x.upper()+"))" for x in input_signals[:num_inputs]])+",value("+symbol_table[output_signal]+","+output_signal.upper()+")."
+
+output_predicate += "{0}([{1}],[{2}]) :- ".format(function_name, ','.join([x.upper() for x in input_signals[:num_inputs]]), ','.join([x.upper() for x in output_signals]))
+output_predicate += "{0}, {1}.".format(', '.join(["{0}, {1}".format("valid("+x.upper()+")","asserta(value("+symbol_table[x]+","+x.upper()+"))") for x in input_signals[:num_inputs]]), "{0}".format(', '.join(["value("+symbol_table[x]+","+x.upper()+")" for x in output_signals])))
 
 f = open(function_name+'.pl', 'w')
 
