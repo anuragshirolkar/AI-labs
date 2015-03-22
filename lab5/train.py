@@ -2,6 +2,7 @@
 
 import sys
 import os.path
+import json
 
 if len(sys.argv) < 2:
     print "Usage: python isolator.py <input-file>"
@@ -70,9 +71,8 @@ for state, table in transition_table.iteritems():
     for key , value in table.iteritems():
         transition_table[state][key] = value/tot
 
-print transition_table
-print "\n=======================================\n"
-print emission_table
+print json.dumps(transition_table)
+print json.dumps(emission_table)
 
 
 
