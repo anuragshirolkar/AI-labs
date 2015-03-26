@@ -32,7 +32,7 @@ for line in f:
             emission_table[states[i]] = {}
 
         if not (obs[i] in emission_table[states[i]].keys()):
-            emission_table[states[i]][obs[i]] = 0
+            emission_table[states[i]][obs[i]] = 1
         
         emission_table[states[i]][obs[i]] =  emission_table[states[i]][obs[i]] + 1
         i = i+1
@@ -46,7 +46,7 @@ for line in f:
             transition_table[last] = {}
 
         if not (states[i] in transition_table[last].keys()):
-            transition_table[last][states[i]] = 0
+            transition_table[last][states[i]] = 1
         
         transition_table[last][states[i]] = transition_table[last][states[i]] + 1
         last = states[i]

@@ -1,11 +1,23 @@
+#!/usr/bin/python
+
+import sys
+import os.path
 import json
 
-f = open('tables.txt')
+if len(sys.argv) < 2:
+    filename = 'data/tables.txt'
+else:
+    filename = sys.argv[1]
 
+if not os.path.isfile(filename) :
+    print "Unable to open file"
+    sys.exit()
+
+f = open(filename)
 transition_table = json.loads(f.readline().strip())
 emission_table = json.loads(f.readline().strip())
 
-inp =raw_input("Input word : ")
+inp =raw_input()
 inp = inp.upper().split(" ")
 for s in inp:
     final_word=s
@@ -41,9 +53,7 @@ for s in inp:
             emission_table[a] = {}
         if not (b in emission_table[a].keys()):
             return 0
-        
-
-
+    
         return emission_table[a][b]
 
     #Looping over all observation sequence
