@@ -4,6 +4,8 @@ import sys
 import os.path
 import json
 
+GRAPHENE_TO_PHONEME = True
+
 if len(sys.argv) < 2:
     print "Usage: python isolator.py <input-file>"
     sys.exit()
@@ -22,8 +24,12 @@ emission_table = {}
 
 for line in f:
     part = line.strip().split('\t')
-    obs = list(part[0])
-    states = part[1].split(' ')
+    if GRAPHENE_TO_PHONEME:
+        obs = part[1].split(' ')
+        states = list(part[0])
+    else:
+        obs = list(part[0])
+        states = part[1].split(' ')
 
     l = len(states)
     i = 0
