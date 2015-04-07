@@ -7,7 +7,7 @@ for i in `seq 1 5`
 do
 	echo ""
 	echo "Result for Fold no $i"
-	a=`./accuracy.py data/answer_$i data/output_$i`
+	a=`./accuracy.py data/answer_$i data/expected_answer_$i`
 	echo $a
 	sum=`python -c "print $a+$sum"`
 done
@@ -24,7 +24,7 @@ for i in `seq 1 5`
 do
 	echo ""
 	echo "Result for Fold no $i"
-	a=`./accuracy.py data/r_answer_$i data/output_$i 1`
+	a=`./accuracy.py data/r_answer_$i data/expected_answer_$i 1`
 	echo $a
 	sum=`python -c "print $a+$sum"`
 done

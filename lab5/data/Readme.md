@@ -6,4 +6,4 @@
 * r_tables_n.txt 	- tables containing transition and emission probabilities for phoneme to graphene for nth fold
 * answer_n 			- answer from test data for nth fold GtoP
 * r_answer_n 		- answer from test data for nth fold PtoG
-* output_n			- outout for test case for nth fold
+* expected_answer_n			- expected answer

@@ -8,3 +8,18 @@ Details of Files:
 * results.sh - Run Accuracy files for 5 fold validations
 * results.txt - Final output results of results.sh
 * train.py - Used to train HMM
+* runner.sh - runs all viterbi
+* trainer.sh - used in training
+* main.sh - This isolates and then trains and then runs the script
+
+
+To run the code-
+./main.sh
+
+To get the results-
+./results.sh
+
+To speak a word-
+python viterbi.py | python speak.py
+
+
