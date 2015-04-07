@@ -1,0 +1,44 @@
+========================
+GRAPHENE TO PHONEME
+========================
+
+Result for Fold no 1
+71.1602730054
+
+Result for Fold no 2
+69.3374956642
+
+Result for Fold no 3
+72.0330262056
+
+Result for Fold no 4
+65.0915313035
+
+Result for Fold no 5
+70.7786589762
+
+Average Accuracy
+69.680197031
+
+========================
+PHONEME TO GRAPHENE
+========================
+
+Result for Fold no 1
+82.6261913166
+
+Result for Fold no 2
+78.4761244074
+
+Result for Fold no 3
+77.9777432093
+
+Result for Fold no 4
+80.2006422427
+
+Result for Fold no 5
+80.6368661379
+
+Average Accuracy
+79.9835134628
+
