@@ -32,6 +32,7 @@ for l in f:
 mainfile = open("data/training_data","w")
 training_data_files =[open("data/training_data_1","w"),open("data/training_data_2","w"),open("data/training_data_3","w"),open("data/training_data_4","w"),open("data/training_data_5","w")]    
 test_data_files =[open("data/test_data_1","w"),open("data/test_data_2","w"),open("data/test_data_3","w"),open("data/test_data_4","w"),open("data/test_data_5","w")]    
+r_test_data_files =[open("data/r_test_data_1","w"),open("data/r_test_data_2","w"),open("data/r_test_data_3","w"),open("data/r_test_data_4","w"),open("data/r_test_data_5","w")]    
 answer_files =[open("data/answer_1","w"),open("data/answer_2","w"),open("data/answer_3","w"),open("data/answer_4","w"),open("data/answer_5","w")]    
 
 length = len(lines)
@@ -43,5 +44,9 @@ for i in xrange(0,length):
         if x == index:
             answer_files[x].write(l[1]+'\n')
             test_data_files[x].write(l[0]+' ')
+            r_test_data_files[x].write(l[1].split('\t')[1]+'\n')
         else:
             training_data_files[x].write(l[1]+'\n')
+
+for x in xrange(0,5):
+    r_test_data_files[x].write('exit\n')
