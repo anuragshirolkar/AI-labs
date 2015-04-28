@@ -2,6 +2,7 @@
 
 import sys
 import os.path
+import random
 
 if len(sys.argv) < 2:
     print "Usage: python isolator.py <input-file>"
@@ -33,8 +34,9 @@ mainfile = open("data/training_data","w")
 training_data_files =[open("data/training_data_1","w"),open("data/training_data_2","w"),open("data/training_data_3","w"),open("data/training_data_4","w"),open("data/training_data_5","w")]    
 test_data_files =[open("data/test_data_1","w"),open("data/test_data_2","w"),open("data/test_data_3","w"),open("data/test_data_4","w"),open("data/test_data_5","w")]    
 r_test_data_files =[open("data/r_test_data_1","w"),open("data/r_test_data_2","w"),open("data/r_test_data_3","w"),open("data/r_test_data_4","w"),open("data/r_test_data_5","w")]    
-answer_files =[open("data/answer_1","w"),open("data/answer_2","w"),open("data/answer_3","w"),open("data/answer_4","w"),open("data/answer_5","w")]    
+answer_files =[open("data/expected_answer_1","w"),open("data/expected_answer_2","w"),open("data/expected_answer_3","w"),open("data/expected_answer_4","w"),open("data/expected_answer_5","w")]    
 
+random.shuffle(lines)
 length = len(lines)
 for i in xrange(0,length):
     l = lines[i]

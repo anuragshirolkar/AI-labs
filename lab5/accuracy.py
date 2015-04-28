@@ -65,5 +65,5 @@ while i < l:
         pass
     i = i +1
 
-print str((c1*100.0)/t1)+"%" 
-print str((c2*100.0)/t2)+"%"
+#print str((c1*100.0)/t1)+"%" 
+print str((c2*100.0)/t2)

@@ -1,0 +1,42 @@
+========================
+GRAPHENE TO PHONEME
+========================
+
+Result for Fold no 1
+No of lines don't match in two files
+
+Result for Fold no 2
+No of lines don't match in two files
+
+Result for Fold no 3
+No of lines don't match in two files
+
+Result for Fold no 4
+No of lines don't match in two files
+
+Result for Fold no 5
+No of lines don't match in two files
+
+Average Accuracy
+
+========================
+PHONEME TO GRAPHENE
+========================
+
+Result for Fold no 1
+No of lines don't match in two files
+
+Result for Fold no 2
+No of lines don't match in two files
+
+Result for Fold no 3
+No of lines don't match in two files
+
+Result for Fold no 4
+No of lines don't match in two files
+
+Result for Fold no 5
+No of lines don't match in two files
+
+Average Accuracy
+

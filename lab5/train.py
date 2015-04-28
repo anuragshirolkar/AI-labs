@@ -11,6 +11,10 @@ if len(sys.argv) < 2:
     sys.exit()
     pass
 
+if len(sys.argv) ==3:
+    if sys.argv[2] == "1":
+        GRAPHENE_TO_PHONEME = False
+
 filename = sys.argv[1]
 
 if not os.path.isfile(filename) :
@@ -25,11 +29,11 @@ emission_table = {}
 for line in f:
     part = line.strip().split('\t')
     if GRAPHENE_TO_PHONEME:
-        obs = part[1].split(' ')
-        states = list(part[0])
-    else:
         obs = list(part[0])
         states = part[1].split(' ')
+    else:
+        obs = part[1].split(' ')
+        states = list(part[0])
 
     l = len(states)
     i = 0
