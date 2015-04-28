@@ -37,7 +37,7 @@ for gate in gates:
         signals.append(w1)
         count_signals+=2
         inputs[gate] = [w0]
-        outputs[gate] = w1
+        outputs[gate] = [w1]
     elif gate[:3] == "and" or gate[:2] == "or" or gate[:3] == 'xor':
         w0 = 'w' + str(count_signals)
         w1 = 'w' + str(count_signals+1)
@@ -47,7 +47,7 @@ for gate in gates:
         signals.append(w2)
         count_signals+=3
         inputs[gate] = [w0,w1]
-        outputs[gate] = w2
+        outputs[gate] = [w2]
     print gate
     print "inputs: ",
     for i in inputs[gate]:
@@ -96,7 +96,7 @@ in_code += "\n\n"
 
 out_code = "\n%% Out Code\n:- multifile out/2.\n"
 for gate in gates:
-    out_code += "out("+symbol_table[gate]+","+symbol_table[outputs[gate]]+").\n"
+    out_code += "out({0},[{1}]).\n".format(symbol_table[gate], ','.join([symbol_table[x] for x in outputs[gate]]))
 out_code += "\n\n"
 
 function_name = raw_input("Enter new Function name: ")
